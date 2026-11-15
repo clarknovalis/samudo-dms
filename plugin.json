@@ -1,0 +1,24 @@
+{
+    "id": "samuAgenda",
+    "name": "samudo",
+    "description": "samudo in the bar: forecast (overdue, today with appointments, the next days, flagged), complete, flag and clock tasks, quick capture. Live over `samu events`; the scope is chosen in the settings; one widget per profile of this computer.",
+    "version": "0.1.0",
+    "license": "MIT",
+    "author": "samudo",
+    "icon": "task_alt",
+    "type": "widget",
+    "capabilities": [
+        "dankbar-widget",
+        "variants"
+    ],
+    "component": "./SamuAgendaWidget.qml",
+    "settings": "./SamuAgendaSettings.qml",
+    "requires": [
+        "samu"
+    ],
+    "permissions": [
+        "settings_read",
+        "settings_write",
+        "process"
+    ]
+}
