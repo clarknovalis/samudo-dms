@@ -140,7 +140,23 @@ PluginComponent {
     property bool pending: false
 
     // ── Actions ─────────────────────────────────────────────────────────
-    function complete(r) { if (isTask(r)) act(["done", r.id], "Erledigen"); }
+    // The widget cannot ask what happens to open tasks below (ADR 0128 §5):
+    // `samu done` then changes nothing and exits with 7, and the task opens
+    // where it can be asked.
+    readonly property int exitNeedsChoice: 7
+
+    function complete(r) {
+        if (!isTask(r)) return;
+        run(["done", r.id], (code, out, err) => {
+            if (code === exitNeedsChoice) {
+                ToastService.showInfo("samudo", "Offene Unteraufgaben: " + shortTitle(r.title));
+                open(r);
+            } else if (code !== 0) {
+                ToastService.showError("samudo", "Erledigen: " + (err || "exit " + code));
+            }
+            refresh();
+        });
+    }
 
     function toggleFlag(r) {
         if (!isTask(r)) return;
